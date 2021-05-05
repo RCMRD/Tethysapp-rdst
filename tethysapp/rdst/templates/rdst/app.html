@@ -3,21 +3,30 @@
 
 {% block content_dependent_styles %}
   {{ block.super }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
   <link href="{% static 'rdst/css/app.css' %}" rel="stylesheet"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.css"> -->
 {% endblock %}
 
 {% block scripts %}
     {{ block.super }}
-<script type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="{% static 'rdst/js/html2pdf.bundle.min.js' %}"></script>
+    <script type="module" src="{% static 'rdst/js/app.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script> -->
 {% endblock %}
 
 {% block app_content_override %}
 <div class="contentarea">
-<div class="plotarea">
-  <p> This is the Map section</p>
+<div id="map" class="plotarea">
+  {% gizmo map_view %}
 </div>
-<div class="navigationpanel">
-  <p>This is the filtering area</p>
+<div class="navigationpanel" id="navpanel" data-controls="{{ controls | jsonify }}">
+  <button id="createPDF">Download PDF</button>
 </div>
 </div>
 {% endblock %}
