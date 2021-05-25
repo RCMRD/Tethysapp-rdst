@@ -1,7 +1,8 @@
 from django.shortcuts import render, reverse
 from tethys_sdk.permissions import login_required
 from tethys_sdk.gizmos import Button, MapView, MVView
-from .select_controls import controls
+from .select_controls import controls, counties
+from .config import buttons as bt
 
 @login_required()
 def home(request):
@@ -18,33 +19,9 @@ def home(request):
     return render(request, 'rdst/home.html', context)
 
 def app(request):
-    map_view = MapView(
-        height='100%',
-        width='100%',
-        controls=[
-            'ZoomSlider','Rotate','FullScreen',
-            {'ZoomToExtent':{
-                'projection':'EPSG:4326',
-                'extent': [29.25,-4.75,46.25,5.2]
-            }}
-        ],
-        basemap=[
-            'CartoDB',
-            {'CartoDB': {'style':'dark'}},
-            'OpenStreetMap',
-            'Stamen',
-            'ESRI'],
-        view=MVView(
-            projection='EPSG:4326',
-            center=[37.880859,0.219726],
-            zoom=9,
-            maxZoom = 20,
-            minZoom = 2
-            )
-        )
     context = {
-        'map_view': map_view,
-        'controls': controls
+        'controls': controls,
+        'counties': counties,
     }
 
     return render(request, 'rdst/app.html', context)
