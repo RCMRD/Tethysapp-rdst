@@ -1,9 +1,8 @@
-let map;
 const app_control = (function () {
     /*
     * GLOBAL VARIABLES
     */
-    let public_interface;
+    let public_interface, map;
     const dims = {
         a0: [1189, 841],
         a1: [841, 594],
