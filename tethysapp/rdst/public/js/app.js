@@ -1,3 +1,4 @@
+var map;
 var app_control = (function () {
 	/*
 	* GLOBAL VARIABLES
@@ -228,12 +229,12 @@ var app_control = (function () {
 		      pdf.addImage(
 		        mapCanvas.toDataURL("image/jpeg"),
 		        "JPEG",
-		        15,
-		        40,
+		        0,
+		        0,
 		        dim[0],
 		        dim[1]
 		      );
-		      pdf.text("Sample PDF using OpenStreet Maps", 35, 25);
+		      //pdf.text("Sample PDF using OpenStreet Maps", 35, 25);
 		      pdf.save("map.pdf");
 		      // Reset original map size
 		      map.setSize(size);
@@ -280,8 +281,8 @@ var app_control = (function () {
 			return;
 		};
 		loadMap = function(data, layer, map){
-			layer.setUrl(data.url);
-			layer.addTo(map);
+			layer.getSource().setUrl(data.url);
+			map.addLayer(layer);
 		};
 	};
 
@@ -303,11 +304,15 @@ var app_control = (function () {
         if (workingLayer) {
             wq_layer = workingLayer;
         } else {
-            workingLayer = L.tileLayer('', {
-                attribution:
-                '<a href="https://earthengine.google.com" target="_">' +
-                'Google Earth Engine</a>;'
-            }).addTo(which);
+            workingLayer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    url: '',
+                    crossOrigin: 'Anonymous',
+                    timeLoadFunction: function(tile, src){
+                        tile.setImage().src = src;
+                    }
+                    })
+            });
         }
         if (num === 1) {
             map1Layer = workingLayer;

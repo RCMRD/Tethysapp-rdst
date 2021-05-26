@@ -30,18 +30,18 @@ def getMap(collectionName, visParams={}, reducer='mosaic', time_start=None, time
             eeFilterDate = ee.Filter.date(time_start, time_end)
             eeCollection = eeCollection.filter(eeFilterDate)
         if(reducer == 'min'):
-            values = ee.data.getTileUrl(eeCollection.min().getMapId(visParams))
+            values = eeCollection.min().getMapId(visParams)
         elif (reducer == 'max'):
-            values = imageToMapId(eeCollection.max(), visParams)
+            values = eeCollection.max().getMapId(visParams)
         elif (reducer == 'mosaic'):
-            values = imageToMapId(eeCollection.mosaic(), visParams)
+            values = eeCollection.mosaic().getMapId(visParams)
         else:
-            values = imageToMapId(eeCollection.mean(), visParams)
+            values = eeCollection.mean().getMapId(visParams)
         
     except EEException as e:
         print(str(e))
         print(str(sys.exc_info()[0]))
         raise Exception(sys.exc_info()[0])
-    tile_url_template = values[:-12]+"{z}/{x}/{y}"
-    return values
-    # return tile_url_template.format(**values)
+    #tile_url_template = values[:-12]+"{z}/{x}/{y}"
+    #return values
+    return values['tile_fetcher'].url_format
