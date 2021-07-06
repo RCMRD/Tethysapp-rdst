@@ -3,6 +3,7 @@
 	height: 15%;
 	background-color: white;
 	border-bottom: black;
+	display: inline-block;
 }
 .footerdiv {
 	height: 15%;

@@ -85,14 +85,20 @@
   <input type="checkbox" id="togglePdf">
   <div id="pdfSection">
     <form class="form">
+        <img src="{% static 'rdst/images/rcmrd_logo2.png' %}" id="rcmrd_image" >
+        <img src="{% static 'rdst/images/nasa_logo.png' %}" id="nasa_image" >
+        <img src="{% static 'rdst/images/servirlogo.png' %}" id="servir_image" >
+        <img src="{% static 'rdst/images/USAID_logo.png' %}" id="usaid_image" >
+        <img src="{% static 'rdst/images/northArrow.png' %}" id="north" >
+        <img src="{% static 'rdst/images/legend.png' %}" id="legend" >
         <label for="format">Page size </label>
         <select id="format">
-          <option value="a0">A0 (slow)</option>
+          <!-- <option value="a0">A0 (slow)</option>
           <option value="a1">A1</option>
           <option value="a2">A2</option>
-          <option value="a3">A3</option>
+          <option value="a3">A3</option> -->
           <option value="a4" selected>A4</option>
-          <option value="a5">A5 (fast)</option>
+          <!-- <option value="a5">A5 (fast)</option> -->
         </select>
         <label for="resolution">Resolution </label>
         <select id="resolution">
