@@ -8,7 +8,7 @@ const app_control = (function () {
         a1: [841, 594],
         a2: [594, 420],
         a3: [420, 297],
-        a4: [297, 210],
+        a4: [165, 190],
         a5: [210, 148],
     };
 
@@ -203,6 +203,30 @@ const app_control = (function () {
                 const height = Math.round((dim[1] * resolution) / 25.4);
                 const size = map.getSize();
                 const viewResolution = map.getView().getResolution();
+                const rcmrdimage = document.getElementById("rcmrd_image");
+                const servirimage = document.getElementById("servir_image");
+                const nasaimage = document.getElementById("nasa_image");
+                const usaidimage = document.getElementById("usaid_image");
+                const arrow = document.getElementById("north");
+                const legend = document.getElementById("legend");
+                const text = 
+                    "NDVI is an index of plant greenness with maximum NDVI being\n"+
+                    "a better indicator in drylands due to reduced risk of cloud\n"+
+                    "contamination. NDVI ranges between -1, 1 where negative\n"+
+                    "values represent water, snow or gaps; values < 0.1 represent \n"+
+                    "barren ground, rocks; 0.2 - 0.5 represent sparse vegetation \n"+
+                    "such as grasslands, shrubs, crops while values from 0.6 \n"+
+                    "represent dense vegetation such as forests. NDVI can be used \n"+
+                    "to monitor changes in vegetation over time, grazing impacts \n"+
+                    "related to grazing management and plans, changes in land \n"+
+                    "cover, rangeland condition and the type of vegetation."
+                const pdf = new jsPDF("potrait", undefined, format).setProperties({
+                    title: "PDF Map for County and Conservancy X"
+                });
+                const textLines = pdf
+                    .setFont("Times New Roman")
+                    .setFontSize(8.3)
+                    .splitTextToSize(text,120)
 
                 map.once("rendercomplete", function () {
                     const mapCanvas = document.createElement("canvas");
@@ -230,16 +254,32 @@ const app_control = (function () {
                             }
                         }
                     );
-                    const pdf = new jsPDF("landscape", undefined, format);
+
                     pdf.addImage(
                         mapCanvas.toDataURL("image/jpeg"),
                         "JPEG",
-                        0,
-                        0,
+                        20,
+                        40,
                         dim[0],
-                        dim[1]
+                        dim[1],
+                        "canvas"
                     );
-                    //pdf.text("Sample PDF using OpenStreet Maps", 35, 25);
+                    pdf.setDrawColor(0, 0, 0);
+                    pdf.rect(20, 40, 165, 190, "S");
+                    pdf.setDrawColor(255, 0, 0);
+                    pdf.setFillColor(182, 183, 210);
+                    pdf.rect(20, 242, 80, 37, "FD");
+                    pdf.text(textLines, 21,247);
+                    pdf.addImage(arrow, "PNG", 110, 235, 10, 10, "north");
+                    pdf.addImage(usaidimage, "PNG", 110, 247, 20, 8, "usaid");
+                    pdf.addImage(nasaimage, "PNG", 110, 257, 10, 10, "nasa");
+                    pdf.addImage(rcmrdimage, "PNG", 110, 269, 20, 8, "rcmrd");
+                    pdf.addImage(servirimage, "PNG", 110, 281, 20, 8, "servir");
+                    pdf.addImage(legend, "PNG", 143, 235, 33, 45, "legend");
+                    pdf.setFontSize(16);
+                    pdf.setFont("courier", "bold")
+                    pdf.text("PDF Map for County and Conservancy X", 35, 25)
+
                     pdf.save("map.pdf");
                     // Reset original map size
                     map.setSize(size);
@@ -398,6 +438,8 @@ const app_control = (function () {
                 pdfdiv.style.display = "none";
             }
         });
+
+
 
         $("#loadmap").on("click", function () {
             getWQMap(map, 1);

@@ -17,6 +17,7 @@
 	width: 24.5%;
 	background-color: white;
 	float: right;
+	overflow: auto;
 }
 p {
 	font-size: 30px;
@@ -46,4 +47,9 @@ button, #navpanel > select, option {
 	height: 35px;
 	color: white;
 	background-color: black;
+}
+.form > img {
+	display: none;
+	width: 10px;
+	height: 10px;
 }
