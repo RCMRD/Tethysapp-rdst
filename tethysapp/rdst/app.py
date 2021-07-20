@@ -44,6 +44,11 @@ class Rdst(TethysAppBase):
                 url='rdst/app/get_map',
                 controller='rdst.ajax_controller.get_map'
             ),
+            UrlMap(
+                name='get_cmap',
+                url='rdst/app/get_cmap',
+                controller='rdst.ajax_controller.get_cmap'
+            ),
         )
 
         return url_maps

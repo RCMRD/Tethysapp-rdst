@@ -306,7 +306,7 @@ const app_control = (function () {
             } else {
                 const xhr = $.ajax({
                     type: "POST",
-                    url: 'get_map/',
+                    url: 'get_cmap/',
                     dataType: "json",
                     data: data_dict,
                     cache: data_dict
@@ -371,7 +371,8 @@ const app_control = (function () {
             option2: $('#option2').val(),
             visparams: getVisParams(),
             start_time: $("#time_start").val(),
-            end_time: $("#time_end").val()
+            end_time: $("#time_end").val(),
+            county: $("#counties").val()
         }, workingLayer, which);
     }
 
