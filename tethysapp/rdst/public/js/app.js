@@ -14,12 +14,12 @@ const app_control = (function () {
 
     // selector variables
     let m_option1, m_option2, m_option3, map_layers, controls, counties, wq_layer,
-        map1Layer, map2Layer;
+        map1Layer, map2Layer, selectForPDF, select2, f_opt1;
     /*
     * FUNCTIONS
     */
     let bind_controls, update_options, create_pdf, init_map, init_events, init_all,
-        map_request, loadMap;
+        map_request, pdf_request, loadMap, loadPdf, update_foptions;
 
     /*
     * FUNCTION IMPLEMENTATIONS
@@ -86,6 +86,23 @@ const app_control = (function () {
 
     };
 
+    update_foptions = function(){
+        $('#optupdb2').remove();
+        f_opt1 = $('#optupdb').val();
+
+        if (typeof selectForPDF[f_opt1]['options'] != "undefined") {
+            const select = $(`<select id="optupdb2"></select>`);
+            $('#forPDF').append($(select));
+
+            for (const l in selectForPDF[f_opt1]['options']) {
+                $('#optupdb2').append($('<option>', {
+                    value : l,
+                    text: selectForPDF[f_opt1]['options'][l]
+                }));
+            }
+        }
+    };
+
     bind_controls = function () {
         $('#option1').on('change', function () {
             let option1 = $('#option1').val();
@@ -100,6 +117,15 @@ const app_control = (function () {
         $('#option2').on('change', function () {
             alert('They changed it again');
         });
+
+        $('#optupdb').on('change', function (){
+            const optudb = $('#optupdb').val();
+
+            if (optudb !== f_opt1) {
+                f_opt1 = optudb;
+                update_foptions();
+            }
+        })
     };
 
     init_map = function () {
@@ -325,9 +351,35 @@ const app_control = (function () {
             }
 
         };
+        pdf_request = function(data_dict) {
+            const pdfInfo = isCached(data_dict);
+
+            if (pdfInfo) {
+                loadPdf(JSON.parse(pdfInfo))
+            } else {
+                const xhr = $.ajax({
+                    type: "POST",
+                    url: 'get_forecast/',
+                    dataType: 'json',
+                    data : data_dict,
+                    cache: data_dict
+                });
+                xhr.done(function (data){
+                    if ("success" in data) {
+                        loadPdf(data);
+                    }  else {
+                        alert('Oops, there was a problem retrieving the PDF. Please see the error: '+ data.error);
+                    }
+                });
+            }
+        }
         loadMap = function (data, layer, map) {
             layer.getSource().setUrl(data.url);
             map.addLayer(layer);
+        };
+        loadPdf = function(data) {
+            // $('.pdfF object').attr('data',"{% static '"+data.url+"' %}");
+            $('.pdfF object').attr('data',"/static/"+data.url);
         };
     };
 
@@ -376,6 +428,15 @@ const app_control = (function () {
         }, workingLayer, which);
     }
 
+    function getForPdf() {
+        pdf_request({
+            date:"202105",
+            ftype:"Zonal_Statistics",
+            description:"Ward Zonal Statistics",
+            region:"BAMBA"
+        })
+    }
+
     function isCached(data_dict) {
         if (typeof (Storage) !== "undefined") {
             if (localStorage.getItem(JSON.stringify(data_dict))) {
@@ -404,6 +465,22 @@ const app_control = (function () {
             });
         }
     }
+
+    function openForm(){
+            document.getElementById("updbform").style.display = "block";
+        };
+    function closeForm(){
+            document.getElementById("updbform").style.display = "none";
+        };
+    function openPDFForm(){
+            document.getElementById("getforecast").style.display = "block";
+        };
+    function closePDFForm(){
+            document.getElementById("getforecast").style.display = "none";
+        };
+    function pdFfdiv(){
+            document.getElementById("pdfFdiv").style.display = "none";
+        };
     /*
 
     * INITIALIZATIONS
@@ -429,6 +506,15 @@ const app_control = (function () {
                 text: counties[j]
             }))
         }
+        const select2 = $(`<select id="optupdb"></select>`);
+        selectForPDF = $('#forPDF').data('updb');
+        $('#forPDF').append($(select2));
+        for (const j in selectForPDF) {
+            $('#optupdb').append($('<option>', {
+                value: j,
+                text: selectForPDF[j]['display']
+            }))
+        }
 
         $('#togglePdf').on('click', function () {
             const checkBox = document.getElementById("togglePdf");
@@ -440,7 +526,27 @@ const app_control = (function () {
             }
         });
 
+        // $('#loadfpdf').on("click", function (){
+        //     getForPdf();
+        // });
 
+        $('#openbtn').on('click', function(){
+            openForm();
+        });
+
+        $('#closebtn').on('click', function(){
+            closeForm();
+        });
+        $('#openpdfbtn').on('click', function(){
+            openPDFForm();
+        });
+
+        $('#closepdfbtn').on('click', function(){
+            closePDFForm();
+        });
+        $('#pdfFbtn').on('click', function(){
+            pdFfdiv();
+        });
 
         $("#loadmap").on("click", function () {
             getWQMap(map, 1);
@@ -450,6 +556,7 @@ const app_control = (function () {
         m_option1 = $('#option1').val();
         m_option2 = $('#option2').val();
         m_option3 = $('#option3').val();
+        f_opt1 = $('#optupdb').val();
         init_all();
     });
 

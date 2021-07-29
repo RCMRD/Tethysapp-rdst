@@ -1,4 +1,5 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
+from tethys_sdk.app_settings import PersistentStoreDatabaseSetting
 
 
 class Rdst(TethysAppBase):
@@ -49,6 +50,22 @@ class Rdst(TethysAppBase):
                 url='rdst/app/get_cmap',
                 controller='rdst.ajax_controller.get_cmap'
             ),
+            UrlMap(
+                name='get_forecast',
+                url='rdst/app/get_forecast',
+                controller='rdst.ajax_controller.get_forecast'
+            ),
         )
 
         return url_maps
+
+    def persistent_store_settings(self):
+        ps_settings = (
+            PersistentStoreDatabaseSetting(
+                name='primary_db',
+                description='primary database',
+                initializer='rdst.model.init_primary_db',
+                required=True
+                ),
+            )
+        return ps_settings

@@ -41,6 +41,34 @@
 <div id="map" class="plotarea">
 </div>
 <div class="navigationpanel">
+  <div class="pdfF" id="pdfFdiv">
+    <object data="{% static 'rdst/forecasts/TONONOKA_202105_Zonal_Statistics.pdf' %}" type="application/pdf" width="1200px" height="550px">
+      alt : <a href="">test.pdf</a>
+    </object>
+    <button class="btn cancel" id="pdfFbtn">Close</button>
+  </div>
+  <button id="openbtn">Update Forecast DB</button>
+  <form class="popupform" id="updbform">
+    <label for="year"> Year </label>
+    <input type="text" placeholder="Enter Year '2010'" name="year" required>
+    <label for="day"> D.O.M</label>
+    <input type="text" placeholder="Enter Day '21'" name="day" required>
+    <label for="monthA"> First Month</label>
+    <input type="text" placeholder="Enter Month A '01'" name="monthA" required>
+    <label for="monthB"> Second Month</label>
+    <input type="text" placeholder="Enter Month B '02'" name="monthB" required>
+    <label for="monthC"> Third Month</label>
+    <input type="text" placeholder="Enter Month C '03'" name="monthC" required>
+    <button type="submit" class="btn">Update DB</button>
+    <button type="submit" class="btn cancel" id="closebtn">Close</button>
+  </form>
+  <button id="openpdfbtn">Get Forecast PDF</button>
+  <form class="popupform" id="getforecast">
+    <label for="year">Year</label>
+    <div id="forPDF" data-updb="{{ upDB | jsonify }}"></div>
+    <button type="submit" class="btn">Get Forecast</button>
+    <button type="submit" class="btn cancel" id="closepdfbtn">Close</button>
+  </form>
   <div id="navpanel" data-controls="{{ controls | jsonify }}">
   </div>
   <div id="dates">

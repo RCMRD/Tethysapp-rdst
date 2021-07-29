@@ -1,6 +1,7 @@
 import json
 from django.http import JsonResponse
 from .geefunctions import getMap, clippedMap 
+from .model import getForecast as gf
 
 def get_map(request):
 	return_obj = {}
@@ -44,4 +45,25 @@ def get_cmap(request):
 		except Exception as e:
 			return_obj["error"] = "Error processing Request. Error: "+ str(e)
 	print(return_obj)
+	return JsonResponse(return_obj)
+
+def get_forecast(request):
+	return_obj = {}
+
+	if request.method == "POST":
+		try:
+			info = request.POST
+			date = info.get('date', None)
+			ftype = info.get('ftype', None)
+			desc = info.get('description', None)
+			regi = info.get('region', None)
+
+			pdf = gf(date, ftype, desc, regi)
+
+			return_obj["url"] = pdf
+			return_obj["success"] = "success"
+
+		except Exception as e:
+			return_obj["error"] = "Error processing Request. Error: "+ str(e)
+
 	return JsonResponse(return_obj)
