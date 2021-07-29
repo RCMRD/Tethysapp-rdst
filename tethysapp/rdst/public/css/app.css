@@ -53,3 +53,29 @@ button, #navpanel > select, option {
 	width: 10px;
 	height: 10px;
 }
+.popupform {
+	width: 250px;
+	padding: 10px 10px 10px 10px;
+	margin:  5px 0 22px 0;
+	background: #f1f1f1;
+	display: none;
+	border: 3px solid #f1f1f1;
+  	z-index: 1;
+  	position: fixed;
+  	right: 12px;
+  	bottom: 0;
+}
+.popupform > label {
+	width: 100%;
+}
+.popupform > input {
+	width: 100%;
+	float: left;
+}
+.pdfF {
+	z-index: 9;
+	display: block;
+	right: 20px;
+	bottom: 2px;
+	position: fixed;
+}

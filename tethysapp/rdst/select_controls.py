@@ -49,6 +49,32 @@ controls = {
                 'display': 'Under development ...'
             }
         }
+    },
+    'Model':{
+        'display': 'View Forecasts',
+        'options': {
+            '...':{
+                'display': 'Choose an Option ...'
+            },
+            'Forecasts':{
+                'display': 'PDF Forecasts',
+                'options': {
+                    '...': {
+                        'display': 'Choose an Option ...'
+                    },
+                    'county': {
+                        'display': 'County Zonal Statistics'
+                    },
+                    'ward': {
+                        'display': 'Wards Zonal Statistics'
+                    },
+                    'conservancies': {
+                        'display': 'Conservancies Zonal Statistics'
+                    },
+                },
+            },
+            'Moving Averages':{},
+        }
     }
 }
 counties = {
@@ -99,4 +125,44 @@ counties = {
     "Kisii":"Kisii",
     "Nyamira":"Nyamira",
     "Nairobi":"Nairobi"
+}
+conservancies = {
+    "BNR":"Bufallo_National_Reserve",
+    "SNR": "Shaba_National_Reserve"
+}
+wards = {
+    "Bamba":"BAMBA",
+    "Garbatula": "GARBATULA",
+    "Gaturi North": "GATURI_NORTH"
+}
+ftypes = {
+    "ZS": "Zonal_Statistics",
+    "MA" : "Moving_Averages",
+    "FF" : "Forecasts for "
+}
+years = {
+    "2020":"2020",
+    "2021":"2021"
+}
+months = {
+    "01":"01","02":"02","03":"03","04":"04","05":"05","06":"06","07":"07","08":"08",
+    "09":"09","10":"10","11":"11","12":"12"
+}
+
+upDB = {
+    "...": {
+        "display": "Choose Regions to View"
+    },
+    "Counties":{
+        "display": "Kenyan Counties",
+        "options": counties
+    },
+    "Wards":{
+        "display": "Kenyan Wards",
+        "options": wards
+    },
+    "Conservancies":{
+        "display": "Kenyan Conservancies",
+        "options": conservancies
+    }
 }
