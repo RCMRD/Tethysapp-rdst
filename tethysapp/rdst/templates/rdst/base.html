@@ -12,6 +12,7 @@
   <h1>Rangelands Decision Support System</h1>
   {% url 'rdst:login' as login_url %}
   {% url 'rdst:home' as home_url %}
+  {% url 'rdst:app' as app_url %}
   <li class="{% if request.path == home_url %}active{% endif %}">
     <button>
       <a href="{{ home_url }}">Home</a>
@@ -22,10 +23,15 @@
       <a href="{{ login_url }}">Login</a>
     </button>
   </li>
+  <li class="{% if request.path == app_url %}active{% endif %}">
+    <button>
+      <a href="{{ app_url }}">Launch App</a>
+    </button>
+  </li>
 </div>
 <div class=footerdiv>
   <div class="footertext">
-  <p> Footer area will be here</p>
+  <!--p> Footer area will be here</p-->
   </div>
   <div class="footerlogos">
     <img src="{% static 'rdst/images/rcmrd_logo.png' %}" alt="RCMRD" width="100px" height="100px">
