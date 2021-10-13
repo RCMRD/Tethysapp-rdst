@@ -209,8 +209,8 @@ const app_control = (function () {
             layers: [raster],
             target: "map",
             view: new ol.View({
-                center: [0, 0],
-                zoom: 2
+                center: ol.proj.fromLonLat([37.59, 0.08]),
+                zoom: 6
             })
         });
     };
