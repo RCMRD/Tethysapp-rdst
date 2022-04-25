@@ -1811,7 +1811,7 @@ Ext.define('LandCover.controller.WebMapping.ButonOnclickActions', {
 				click: function ()
 				{
 
-					var win = window.open('http://apps.rcmrd.org/rangelands/', '_blank');
+					var win = window.open('https://apps.rcmrd.org/rangelands/', '_blank');
 				}
 			},
 			'MapPanel button[action=vci_app]':
