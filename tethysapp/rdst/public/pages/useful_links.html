@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Metadata</title>
+<style type="text/css">
+.useful_linksa {
+  text-decoration: none;
+  width:100%; 
+  line-height:25px;
+  display:block; 
+  padding-left:3px; 
+  background-repeat:repeat-x; 
+
+}
+.useful_linksa:hover {
+background-color:#CBC9BD;
+
+}
+.useful_linksli {
+  width: 100%;
+  height: 25px;
+  list-style: none;
+ /* border: 1px solid #C4C4C4; */
+}
+
+.useful_linksul {
+  padding: 10px;
+}
+
+.document p {
+padding: 8px; 
+}
+.document{
+padding: 5px; 
+}
+
+.default_ul{
+  margin-left: 15px;  
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="document">
+
+<h2>MODIS NDVI</h2>
+<p>The NDVI data was derived from raw files received from Moderate Resolution Imaging Spectro-radiometer (MODIS) sensor aboard Terra and Aqua satellite. The raw files are projected to WGS84 coordinate system and then clipped using the Kenya national boundary shapefile. The physical NDVI values are then computed from the digital numbers (The physical values (PV) are derived from the digital number (DN) using the relation: PV = Scaling * DN + Offset). Some digital values are used to flag specific pixels: 255 for invalid pixels, 254 for water/sea, 253 for snow/ice, 252 for cloud/shadow, 251 for missing data. 
+</p>
+<p>
+  Ten day files are then aggregated to form decadal files. For ease of interpretation and analysis, the positive NDVI values are displayed as referenced from the legend.
+</p>
+
+
+<h2>STANDARDIZED ANOMALIES</h2>
+<p>
+  Anomalies represent deviations from “normal” behaviour. They are used to provide quantative measures that expresses how different a variable is at a certain time from its reference conditions. The long term mean is used to represent the reference conditions (“normal”). Below-normal conditions relate to less than normal conditions such as drought or stress while above normal conditions relate to increased/improved productivity. Anomalies help highlight areas of potential concern and take into account the variations over time (dekad, month, season) in productivity of the vegetation hence giving the bigger picture.
+</p>
+<p>
+  Continuous persistence of negative anomalies is critical especially in rangelands as there is dependence on rain-fed pastures for livelihoods.
+</p>
+<p>
+  The <b>Standard anomalies</b> or the Z-score are derived from the difference between current NDVI values and the long term average, divided by the long term standard deviation.
+</p>
+
+
+<h2> ABSOLUTE ANOMALIES (Difference from Mean)</h2>
+<p>
+  Anomalies represent deviations from “normal” behaviour. They are used to provide quantative measures that expresses how different a variable is at a certain time from its reference conditions. The long term mean is used to represent the reference conditions (“normal”). Below-normal conditions relate to less than normal conditions such as drought or stress while above normal conditions relate to increased/improved productivity. Anomalies help highlight areas of potential concern and take into account the variations over time (dekad, month, and season) in productivity of the vegetation hence giving the bigger picture.
+</p>
+<p>
+  Continuous persistence of negative anomalies is critical especially in rangelands as there is dependence on rainfed pastures for livelihoods.
+</p>
+<p>
+  The <b>absolute anomalies</b> are calculated by subtracting the current values from the long term mean.
+</p>
+
+
+<h2>VCI</h2>
+<p>
+  The Vegetation Condition Index (VCI) compares the current NDVI to the range of values observed in the same period in previous years. The VCI is expressed in percentage (%) and gives an idea where the observed value is situated between the extreme values (minimum and maximum) in the previous years. Lower and higher values indicate bad and good vegetation state conditions, respectively.
+</p>
+<p>
+  <b>Quality:</b> Since the VCI is an NDVI-derived product, its quality depends entirely on the quality of the NDVI and the length of the historical time series available. In particular, it is sensitive to cloud contamination in the original NDVI dataset. This may lead to a below normal value which is not due to low vegetation activity. Because of this, it is important to consider successive dekades to see if the trend on the considered area persists.
+</p>
+<p>
+  Note that like any other “relative” difference operator, the VCI can show very unpredictable and sharply fluctuating results for regions with rather constant vegetation index profiles, such as warm and cold deserts and equatorial forests. Users should be aware of this and only consider the regions/pixels with clear phenological profiles.
+</p>
+<p>
+  <b>Application:</b>  Like other indicators of difference between current and historical vegetation indicator values, VCI is mostly used in a qualitative way, to detect and spatially delineate anomalies in vegetation condition and growth, both in extension and intensity. This is particularly useful in the monitoring of the on-going growing season (e.g. early warning purposes).
+</p>
+<p>
+  Moreover, VCI is useful in identifying drought situations and determining the onset, especially in areas where drought episodes are localized and ill defined. It focuses on the impact of drought on vegetation and can provide information on the onset, duration and severity of drought by noting vegetation changes and comparing them with historical values.
+</p>
+
+</div>
+
+</body>
+</html>

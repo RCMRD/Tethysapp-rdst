@@ -1,0 +1,100 @@
+{% load static tethys_gizmos terms_tags analytical%}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rangelands Decision Support Tool</title>
+<!-- <link rel="stylesheet" type="text/css" href="lib/extjs_4.2.1/resources/css/ext-all-neptune.css"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'rdst/lib/extjs_4.2.1/resources/ext-theme-neptune/ext-theme-neptune-all.css' %}">
+
+<!-- <link rel ="stylesheet" type="text/css" href="lib/extjs_4.2.1/resources/css/ext-all.css"> -->
+<!-- ExtJS Lib -->
+<!-- <script type="text/javascript" src="lib/extjs_4.2.1/extjs.js"></script> -->
+<script type="text/javascript" src="{% static 'rdst/lib/extjs_4.2.1/ext-all.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'rdst/lib/jquery.min.js' %}"></script>
+
+<!-- Charts API -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+ <!-- ArcGIS JS API -->
+<script src="https://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.1"></script>
+
+
+<!-- OpenLayers Lib -->
+<script src="{% static 'rdst/lib/OpenLayers-2.13.1/OpenLayers.js' %}" type="text/javascript" defer></script>
+<script src="{% static 'rdst/assets/js/LoadingPanel.js' %}" type="text/javascript" defer></script>
+<script src="{% static 'rdst/lib/extjs_4.2.1/ext-theme-neptune.js' %}" type="text/javascript" defer></script>
+
+<script type="text/javascript">
+
+  var pond_mapid = "{{ pond_mapid }}";
+  var pond_token = "{{ pond_token }}";
+  var username = "Login";
+
+	// latest wms
+	var recent_wms = '';
+	var dekadals = [];
+	var allLayers = [];
+
+	$.ajax({
+	        //url: "/app/layers.json",
+			url: "https://geoportal.rcmrd.org/data/layers.json",
+			dataType: "json",
+			async: true,
+			crossDomain: true
+			/*headers: {
+				"accept": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			}*/
+		    }).then(function(data) {
+
+				var layers = data.layers.layer;
+
+				$.each(layers, function(index,value){
+					var layer = value.name;
+					if(layer.includes("modis.dekadal")){
+						dekadals.push(layer);
+					}
+
+					allLayers.push(layer);
+
+
+				});
+
+			//console.log(dekadals[dekadals.length-1]);
+			recent_wms = dekadals[dekadals.length-1];
+			console.log(recent_wms);
+
+		});
+
+</script>
+<script type="text/javascript" src="{% static 'rdst/data/rdst_data.js' %}" ></script>
+<script type="text/javascript" src="{% static 'rdst/data/vci_products.js' %}" ></script>
+<script type="text/javascript" src="{% static 'rdst/index.js' %}" ></script>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'rdst/lib/geoext2-2.0.2b/resources/css/popup.css' %}">
+<link rel ="stylesheet" type="text/css" href="{% static 'rdst/assets/css/custom.css' %}">
+
+<link rel="shortcut icon" href="{% static 'rdst/assets/images/favicon.ico' %}" />
+
+</head>
+<body>
+
+    <div id="chart_div" class="x-hide-display" style="width: 700px">
+    </div>
+
+    {% if user.is_authenticated %}
+
+        <script type="text/javascript">
+            username = "{{ user.username }}";
+        </script>
+
+    {% endif %}
+
+
+
+</body>
+
+</html>

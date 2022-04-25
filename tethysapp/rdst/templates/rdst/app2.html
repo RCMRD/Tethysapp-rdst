@@ -1,0 +1,142 @@
+{% extends "rdst/base.html" %}
+{% load tethys_gizmos static %}
+
+{% block content_dependent_styles %}
+  {{ block.super }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.2/dist/leaflet.draw.css" />
+  <link href="{% static 'rdst/css/app.css' %}" rel="stylesheet"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.css"> -->
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/leaflet.sync@0.2.4/L.Map.Sync.js"></script>-->
+<!--    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"-->
+<!--  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="-->
+<!--  crossorigin=""></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+<!--    <script src="https://unpkg.com/leaflet-draw@1.0.2/dist/leaflet.draw.js"></script>-->
+    <script src="https://cdn.polyfill.io/v3/polyfill.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL,TextDecoder"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script type="module" src="{% static 'rdst/js/app.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script> -->
+{% endblock %}
+
+{% block app_content_override %}
+<div class="tethys-app-header" style="display:none;"></div>
+<div class="contentarea">
+<div id="map" class="plotarea">
+</div>
+<div class="navigationpanel">
+  <div class="pdfF" id="pdfFdiv">
+    <object data="{% static 'rdst/forecasts/TONONOKA_202105_Zonal_Statistics.pdf' %}" type="application/pdf" width="1200px" height="550px">
+      alt : <a href="">test.pdf</a>
+    </object>
+    <button class="btn cancel" id="pdfFbtn">Close</button>
+  </div>
+  <button id="openbtn">Update Forecast DB</button>
+  <form class="popupform" id="updbform">
+    <label for="year"> Year </label>
+    <input type="text" placeholder="Enter Year '2010'" name="year" required>
+    <label for="day"> D.O.M</label>
+    <input type="text" placeholder="Enter Day '21'" name="day" required>
+    <label for="monthA"> First Month</label>
+    <input type="text" placeholder="Enter Month A '01'" name="monthA" required>
+    <label for="monthB"> Second Month</label>
+    <input type="text" placeholder="Enter Month B '02'" name="monthB" required>
+    <label for="monthC"> Third Month</label>
+    <input type="text" placeholder="Enter Month C '03'" name="monthC" required>
+    <button type="submit" class="btn">Update DB</button>
+    <button type="submit" class="btn cancel" id="closebtn">Close</button>
+  </form>
+  <button id="openpdfbtn">Get Forecast PDF</button>
+  <form class="popupform" id="getforecast">
+    <label for="year">Year</label>
+    <div id="forPDF" data-updb="{{ upDB | jsonify }}"></div>
+    <button type="submit" class="btn">Get Forecast</button>
+    <button type="submit" class="btn cancel" id="closepdfbtn">Close</button>
+  </form>
+  <div id="navpanel" data-controls="{{ controls | jsonify }}">
+  </div>
+  <div id="dates">
+      <form>
+        <label for="time_start">Start Date</label>
+        <input 
+        class="form-control buttontheme"
+        id="time_start" 
+        type="text" 
+        name="time_start"
+        data-provide="datepicker"
+        value="2016-01-01"
+        data-date-autoclose="true" 
+        data-date-format="yyyy-mm-dd"
+        data-date-start-view="decade"
+        data-date-today-btn="true"
+        >
+        <label for="time_end">End Date</label>
+        <input 
+        class="form-control buttontheme"
+        id="time_end" 
+        type="text" 
+        name="time_end"
+        data-provide="datepicker"
+        value="2016-01-30"
+        data-date-autoclose="true" 
+        data-date-format="yyyy-mm-dd"
+        data-date-start-view="decade"
+        data-date-today-btn="true"
+        >
+      </form>
+    </div>
+  <button id="loadmap">Load Map</button>
+  <div>
+    <p>Ancillary Data</p>
+    <label for="county">Select County</label>
+    <div id="county" data-counties="{{ counties | jsonify }}">  
+      <select id="counties"></select>
+    </div>
+  </div>
+  <label for="togglePdf" id="toggle">Create PDF:  </label>
+  <input type="checkbox" id="togglePdf">
+  <div id="pdfSection">
+    <form class="form">
+        <img src="{% static 'rdst/images/rcmrd_logo2.png' %}" id="rcmrd_image" >
+        <img src="{% static 'rdst/images/nasa_logo.png' %}" id="nasa_image" >
+        <img src="{% static 'rdst/images/servirlogo.png' %}" id="servir_image" >
+        <img src="{% static 'rdst/images/USAID_logo.png' %}" id="usaid_image" >
+        <img src="{% static 'rdst/images/northArrow.png' %}" id="north" >
+        <img src="{% static 'rdst/images/legend.png' %}" id="legend" >
+        <label for="format">Page size </label>
+        <select id="format">
+          <!-- <option value="a0">A0 (slow)</option>
+          <option value="a1">A1</option>
+          <option value="a2">A2</option>
+          <option value="a3">A3</option> -->
+          <option value="a4" selected>A4</option>
+          <!-- <option value="a5">A5 (fast)</option> -->
+        </select>
+        <label for="resolution">Resolution </label>
+        <select id="resolution">
+          <option value="72">72 dpi (fast)</option>
+          <option value="150">150 dpi</option>
+          <option value="300">300 dpi (slow)</option>
+        </select>
+      </form>
+    <button id="createPDF">Download PDF</button>
+  </div>
+</div>
+</div>
+{% endblock %}

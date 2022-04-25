@@ -12,13 +12,26 @@ def home(request):
         display_text = "Launch App",
         name = 'launch_app',
         style='success',
-        href=reverse('rdst:app')
+        href=reverse('rdst:tool')
         )
 
     context = {
     'launch_app': app_button
     }
     return render(request, 'rdst/home.html', context)
+
+def dash(request):
+
+
+    context = {
+    }
+    return render(request, 'rdst/dashboard.html', context)
+
+def tool(request):
+
+    context = {
+    }
+    return render(request, 'rdst/tool.html', context)
 
 def app(request):
     # udb(year='2021', montha='04', monthb='05', monthc='06', day='21')

@@ -36,6 +36,16 @@ class Rdst(TethysAppBase):
                 controller='rdst.controllers.home'
             ),
             UrlMap(
+                name='dash',
+                url='dash',
+                controller='rdst.controllers.dash'
+            ),
+            UrlMap(
+                name='tool',
+                url='tool',
+                controller='rdst.controllers.tool'
+            ),
+            UrlMap(
                 name='login',
                 url='login',
                 controller='rdst.controllers.login'

@@ -12,7 +12,7 @@
   <h1>Rangelands Decision Support System</h1>
   {% url 'rdst:login' as login_url %}
   {% url 'rdst:home' as home_url %}
-  {% url 'rdst:app' as app_url %}
+  {% url 'rdst:tool' as app_url %}
   <li class="{% if request.path == home_url %}active{% endif %}">
     <button>
       <a href="{{ home_url }}">Home</a>

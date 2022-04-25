@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ block.super }}
+    {{ block.super }}a
     <script
         src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -74,27 +74,27 @@
   <div id="dates">
       <form>
         <label for="time_start">Start Date</label>
-        <input 
+        <input
         class="form-control buttontheme"
-        id="time_start" 
-        type="text" 
+        id="time_start"
+        type="text"
         name="time_start"
         data-provide="datepicker"
         value="2016-01-01"
-        data-date-autoclose="true" 
+        data-date-autoclose="true"
         data-date-format="yyyy-mm-dd"
         data-date-start-view="decade"
         data-date-today-btn="true"
         >
         <label for="time_end">End Date</label>
-        <input 
+        <input
         class="form-control buttontheme"
-        id="time_end" 
-        type="text" 
+        id="time_end"
+        type="text"
         name="time_end"
         data-provide="datepicker"
         value="2016-01-30"
-        data-date-autoclose="true" 
+        data-date-autoclose="true"
         data-date-format="yyyy-mm-dd"
         data-date-start-view="decade"
         data-date-today-btn="true"
@@ -105,7 +105,7 @@
   <div>
     <p>Ancillary Data</p>
     <label for="county">Select County</label>
-    <div id="county" data-counties="{{ counties | jsonify }}">  
+    <div id="county" data-counties="{{ counties | jsonify }}">
       <select id="counties"></select>
     </div>
   </div>
