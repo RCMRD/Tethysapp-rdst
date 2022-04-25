@@ -634,7 +634,7 @@ function loadFTPlinks(_name){
 			for(var k=0; k < vci_product_links.ftp_links[i].forecasts.length; k++){
 				var ftp_label = vci_product_links.ftp_links[i].forecasts[k][0];
 				var ftp_link = vci_product_links.ftp_links[i].forecasts[k][1];
-				var ftp_url = "<a href='" + ftp_link + "'>" + ftp_label + "</a>";
+				var ftp_url = "<a href='" + ftp_link + "' target='_blank'>" + ftp_label + "</a>";
 
 				ftp_data.push({label1: ftp_url});
 			}
@@ -724,7 +724,7 @@ function generate_Map(ndvi_file, shapefile, fieldvalue, overlays)
 
 			// modified wps endpoint
 			//var gpTaskUrl = "http://maps.rcmrd.org/arcgis/rest/services/Kenya/Kenya_Rangelands_Map_Generator/GPServer/Kenya_Rangeland_Map_Generator";
-			var gpTaskUrl = "http://maps.rcmrd.org/arcgis/rest/services/wps/KenyaRangelandMapGenerator/GPServer/Kenya_Rangeland_Map_Generator";
+			var gpTaskUrl = "https://maps.rcmrd.org/arcgis/rest/services/wps/KenyaRangelandMapGenerator/GPServer/Kenya_Rangeland_Map_Generator";
 
 			var gp_Parameters = {"county_or_conservancy_name":county_or_conservancy_name, 
 								"gis_shapefile_name":gis_shapefile_name,
