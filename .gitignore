@@ -12,3 +12,4 @@ services.yml
 build
 dist
 .eslintignore
+local_settings.py

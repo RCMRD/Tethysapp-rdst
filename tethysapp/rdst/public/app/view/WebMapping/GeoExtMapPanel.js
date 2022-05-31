@@ -259,7 +259,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     yx : {'EPSG:3857' : true}
             }
           );
-          //console.log(pond_mapid,pond_token)
+          console.log(pond_mapid,pond_token)
 
         protected_areas = new OpenLayers.Layer.WMS("Protected Areas",
                     "http://apps.rcmrd.org:8080/geoserver/wms",

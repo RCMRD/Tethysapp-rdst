@@ -1803,7 +1803,7 @@ Ext.define('LandCover.controller.WebMapping.ButonOnclickActions', {
 				click: function ()
 				{
 
-					window.location.href = "/login";
+					//window.location.href = "/login";
 				}
 			},
 			'MapPanel button[action=mapgen_app]':

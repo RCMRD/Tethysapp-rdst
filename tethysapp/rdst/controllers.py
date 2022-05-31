@@ -6,6 +6,9 @@ from .config import buttons as bt
 from .updateForecastDB import popDB as udb
 from .app import Rdst as app
 
+from .gee_utils import getPondMap
+import datetime
+
 @login_required()
 def home(request):
     app_button = Button (
@@ -29,7 +32,12 @@ def dash(request):
 
 def tool(request):
 
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    result = getPondMap(today)
+
     context = {
+        'pond_mapid': result['mapid'],
+        'pond_token': result['token']
     }
     return render(request, 'rdst/tool.html', context)
 
