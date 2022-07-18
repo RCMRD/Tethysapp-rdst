@@ -76,7 +76,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
         ndvi_wms = new OpenLayers.Layer.WMS(default_wms,
-                    "https://maps.rcmrd.org/geoserver/wms",
+                    "http://maps.rcmrd.org:8080/geoserver/wms",
                     {
                         layers: default_wms_layer,
                         transparent: true,
@@ -251,7 +251,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     
                 );
           surface_water = new OpenLayers.Layer.XYZ(
-            "Surface Water","https://earthengine.googleapis.com/map/"+pond_mapid+"/${z}/${x}/${y}?token="+pond_token,
+            "Surface Water",pond_url,
             {
                     visibility: false,
                     isBaseLayer: false,
@@ -259,7 +259,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     yx : {'EPSG:3857' : true}
             }
           );
-          console.log(pond_mapid,pond_token)
+          console.log(pond_url)
 
         protected_areas = new OpenLayers.Layer.WMS("Protected Areas",
                     "http://apps.rcmrd.org:8080/geoserver/wms",

@@ -70,10 +70,11 @@ def getPondMap(startDate):
     pondsImg = pond_cls.reduceToImage(properties=['pondCls'],
                                        reducer=ee.Reducer.first())
 
-    mapid = pondsImg.getMapId({"min":0,"max":1,"palette":"silver,lightblue,blue,darkblue"})
+    map_id = pondsImg.getMapId({"min":0,"max":1,"palette":"silver,lightblue,blue,darkblue"})
 
     # tile_url_template = unicode("https://earthengine.googleapis.com/map/{mapid}/{${z}}/{${x}}/{${y}}?token={token}","utf-8")
-    return {"mapid":mapid['mapid'],'token':mapid['token']}
+    # return {"mapid":mapid['mapid'],'token':mapid['token']}
+    return map_id['tile_fetcher'].url_format
 
 
 def addArea(feature):

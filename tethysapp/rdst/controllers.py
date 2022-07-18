@@ -35,10 +35,11 @@ def tool(request):
     today = datetime.datetime.now().strftime('%Y-%m-%d')
     result = getPondMap(today)
 
-    context = {
-        'pond_mapid': result['mapid'],
-        'pond_token': result['token']
-    }
+    # context = {
+    #     'pond_mapid': result['mapid'],
+    #     'pond_token': result['token']
+    # }
+    context = { 'ponds_url_format': result}
     return render(request, 'rdst/tool.html', context)
 
 def app(request):
