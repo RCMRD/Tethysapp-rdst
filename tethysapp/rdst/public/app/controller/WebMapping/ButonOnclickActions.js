@@ -1819,7 +1819,15 @@ Ext.define('LandCover.controller.WebMapping.ButonOnclickActions', {
                                 click: function ()
                                 {
 
-                                        var win = window.open('https://apps.rcmrd.org:8443/VCI_Forecasts/', '_blank');
+                                        var win = window.open('https://apps.rcmrd.org:8443/forecasts_final/', '_blank');
+                                }
+                        },
+             'MapPanel button[action=ndvi_products]':
+                        {
+                                click: function ()
+                                {
+
+                                        var win = window.open('https://apps.rcmrd.org:8443/NDVI_DATA/', '_blank');
                                 }
                         },
 			'MapPanel button[action=map_default_map_extent]':

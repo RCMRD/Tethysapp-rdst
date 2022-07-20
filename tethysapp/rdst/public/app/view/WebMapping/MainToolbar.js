@@ -119,7 +119,7 @@ Ext.define('LandCover.view.WebMapping.MainToolbar',
                                                         action: 'vci_app'
                                                 },
                                             '-',
-					    {
+					    /*{
 							text: 'Feedback',
 							cls:'tools_cls',
 							tooltip: "User Feedback",
@@ -127,14 +127,14 @@ Ext.define('LandCover.view.WebMapping.MainToolbar',
 							enableToggle: true,
 							action: 'feedback'
 						},
-						'-',
+						'-', */
 					    {
-							text: username,
+							text: 'NDVI Products',
 							cls:'tools_cls',
-							tooltip: "User Login",
+							tooltip: "NDVI Products",
 							//icon: '/static/assets/images/about.png',
 							enableToggle: true,
-							action: 'login'
+							action: 'ndvi_products'
 						},
 					    '-',
 						{
