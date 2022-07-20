@@ -474,7 +474,7 @@ function loadLayer(wms_name){
 				}
 
 				var wms_layer = new OpenLayers.Layer.WMS(wms_name,
-						"https://maps.rcmrd.org/geoserver/wms",
+						"http://maps.rcmrd.org:8080/geoserver/wms",
 						{
 						   layers: 'rangelands:' + wms_name,
 						   transparent: true,
