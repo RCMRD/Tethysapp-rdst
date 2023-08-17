@@ -27,29 +27,32 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
        
         ///Baselayers
-        var mapbox_street = new OpenLayers.Layer.XYZ("Mapbox Street",
-            ["http://a.tiles.mapbox.com/v4/mapbox.streets/${z}/${x}/${y}.png?access_token=pk.eyJ1Ijoid29uZGllIiwiYSI6InlKcXpXT1UifQ.BQ3hMXdyffGusTRN8JnWOg"], {
+       /* var mapbox_street = new OpenLayers.Layer.XYZ("Mapbox Street",
+            ["https://a.tiles.mapbox.com/v4/mapbox.streets/${z}/${x}/${y}.png?access_token=pk.eyJ1Ijoid29uZGllIiwiYSI6InlKcXpXT1UifQ.BQ3hMXdyffGusTRN8JnWOg"], {
                 sphericalMercator: true,
                 wrapDateLine: true,
                 numZoomLevels: 20,
                 transitionEffect: 'resize'
-            });
+            });*/
+
+      
+        var osm =   new OpenLayers.Layer.OSM("Open Street Map");
 
         var esri_topo_map = new OpenLayers.Layer.XYZ( "ESRI",
-            "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}",
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}",
             {sphericalMercator: true} );
 
          var esri_imagery = new OpenLayers.Layer.XYZ( "ESRI Imagery",
-            "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}",
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}",
             {sphericalMercator: true} );
 
         var mapquest = new OpenLayers.Layer.XYZ(
             "Imagery",
             [
-                "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-                "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-                "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-                "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"
+                "https://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+                "https://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+                "https://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+                "https://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"
             ],
             {
                 sphericalMercator: true,
@@ -76,7 +79,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
         ndvi_wms = new OpenLayers.Layer.WMS(default_wms,
-                    "http://maps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: default_wms_layer,
                         transparent: true,
@@ -95,7 +98,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
         conservancies_wms = new OpenLayers.Layer.WMS("Conservancies",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:conservancies',
                         transparent: true,
@@ -114,7 +117,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
          grazing_blocks_wms = new OpenLayers.Layer.WMS("Grazing Blocks",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:nrt_grazing_blocks',
                         transparent: true,
@@ -131,7 +134,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         counties_wms = new OpenLayers.Layer.WMS("Counties",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:counties',
                         transparent: true,
@@ -148,7 +151,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         wards_wms = new OpenLayers.Layer.WMS("Wards",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:kenya_wards',
                         transparent: true,
@@ -166,7 +169,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
     
 
         invasive_species = new OpenLayers.Layer.WMS("Invasive Species",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:invasive_species',
                         transparent: true,
@@ -183,7 +186,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         lakes = new OpenLayers.Layer.WMS("Lakes",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:lakes',
                         transparent: true,
@@ -200,7 +203,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
         
         rivers = new OpenLayers.Layer.WMS("Rivers",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:rivers',
                         transparent: true,
@@ -217,7 +220,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         towns = new OpenLayers.Layer.WMS("Towns",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:towns',
                         transparent: true,
@@ -235,7 +238,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
         water_sources = new OpenLayers.Layer.WMS("Water Sources",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:surface_water',
                         transparent: true,
@@ -250,7 +253,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     }
                     
                 );
-          surface_water = new OpenLayers.Layer.XYZ(
+          /*surface_water = new OpenLayers.Layer.XYZ(
             "Surface Water",pond_url,
             {
                     visibility: false,
@@ -259,10 +262,10 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     yx : {'EPSG:3857' : true}
             }
           );
-          console.log(pond_url)
+          console.log(pond_url)*/
 
         protected_areas = new OpenLayers.Layer.WMS("Protected Areas",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:protected_areas',
                         transparent: true,
@@ -279,7 +282,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         opuntia = new OpenLayers.Layer.WMS("Opuntia Occurence",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:opuntia_occurence',
                         transparent: true,
@@ -296,7 +299,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
         acacia = new OpenLayers.Layer.WMS("Acacia Reficiens Occurence",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:acacia_occurence',
                         transparent: true,
@@ -311,9 +314,25 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                     }
                     
                 );
+        drip_counties = new OpenLayers.Layer.WMS("Drip Counties",
+                "https://geoserver.rcmrd.org/geoserver/wms",
+                {
+                    layers: 'rangelands:drip_counties',
+                    transparent: true,
+                    format: "image/png"
+                }, {
+                       buffer: 0,
+                        visibility: false,
+                        displayOutsideMaxExtent: true,
+                        displayInLayerSwitcher: true,
+                        isBaseLayer: false,
+                        yx : {'EPSG:4326' : true}
+                }
+                
+            );
 
          conflict_areas = new OpenLayers.Layer.WMS("Conflict Areas",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:conflict_areas',
                         transparent: true,
@@ -330,7 +349,7 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
                 );
 
           migration_routes = new OpenLayers.Layer.WMS("Migration Routes",
-                    "http://apps.rcmrd.org:8080/geoserver/wms",
+                    "https://geoserver.rcmrd.org/geoserver/wms",
                     {
                         layers: 'rangelands:migration_routes',
                         transparent: true,
@@ -502,8 +521,8 @@ Ext.define('LandCover.view.WebMapping.GeoExtMapPanel',
 
 
         //When there is internet use this
-        map.addLayers([ndvi_wms, migration_routes, conflict_areas, protected_areas, opuntia, acacia, surface_water, towns, reports_layer, rivers, lakes, grazing_blocks_wms, conservancies_wms, wards_wms, counties_wms,
-            esri_imagery, mapbox_street]);
+        map.addLayers([ndvi_wms, migration_routes, conflict_areas, protected_areas, opuntia, acacia, towns, reports_layer, rivers, lakes, grazing_blocks_wms, conservancies_wms, wards_wms, counties_wms,drip_counties,
+            esri_imagery,osm]);
 
         reports_layer.events.on({
                 featureselected: function (e) {

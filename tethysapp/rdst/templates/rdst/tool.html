@@ -30,13 +30,14 @@
 
   //var pond_mapid = "{{ pond_mapid }}";
   //var pond_token = "{{ pond_token }}";
-  var pond_url = "{{ ponds_url_format }}";
+  //var pond_url = "{{ ponds_url_format }}";
   var username = "Login";
 
-  console.log(pond_url);
+  //console.log(pond_url);
 
 	// latest wms
 	var recent_wms = '';
+	var ndvi_tif='';
 	var dekadals = [];
 	var allLayers = [];
 
@@ -45,7 +46,8 @@
 			url: "https://geoportal.rcmrd.org/data/layers.json",
 			dataType: "json",
 			async: true,
-			crossDomain: true
+			crossDomain: true,
+			cache: false
 			/*headers: {
 				"accept": "application/json",
 				"Access-Control-Allow-Origin": "*"
@@ -68,13 +70,79 @@
 			//console.log(dekadals[dekadals.length-1]);
 			recent_wms = dekadals[dekadals.length-1];
 			console.log(recent_wms);
+			ndvi_tif = recent_wms;
+			$.getScript("{% static 'rdst/index.js' %}");
+			
 
 		});
+		
+const eventListenerOptionsSupported = () => {
+  let supported = false;
+
+  try {
+    const opts = Object.defineProperty({}, 'passive', {
+      get() {
+        supported = true;
+      }
+    });
+
+    window.addEventListener('test', null, opts);
+    window.removeEventListener('test', null, opts);
+  } catch (e) {}
+
+  return supported;
+}
+
+const defaultOptions = {
+  passive: false,
+  capture: false
+};
+const supportedPassiveTypes = [
+  'scroll', 'wheel',
+  'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave',
+  'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'
+];
+const getDefaultPassiveOption = (passive, eventName) => {
+  if (passive !== undefined) return passive;
+
+  return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive;
+};
+
+const getWritableOptions = (options) => {
+  const passiveDescriptor = Object.getOwnPropertyDescriptor(options, 'passive');
+
+  return passiveDescriptor && passiveDescriptor.writable !== true && passiveDescriptor.set === undefined
+    ? Object.assign({}, options)
+    : options;
+};
+
+const overwriteAddEvent = (superMethod) => {
+  EventTarget.prototype.addEventListener = function (type, listener, options) {
+    const usesListenerOptions = typeof options === 'object' && options !== null;
+    const useCapture          = usesListenerOptions ? options.capture : options;
+
+    options         = usesListenerOptions ? getWritableOptions(options) : {};
+    options.passive = getDefaultPassiveOption(options.passive, type);
+    options.capture = useCapture === undefined ? defaultOptions.capture : useCapture;
+
+    superMethod.call(this, type, listener, options);
+  };
+
+  EventTarget.prototype.addEventListener._original = superMethod;
+};
+
+const supportsPassive = eventListenerOptionsSupported();
+
+if (supportsPassive) {
+  const addEvent = EventTarget.prototype.addEventListener;
+  overwriteAddEvent(addEvent);
+}
 
 </script>
 <script type="text/javascript" src="{% static 'rdst/data/rdst_data.js' %}" ></script>
 <script type="text/javascript" src="{% static 'rdst/data/vci_products.js' %}" ></script>
-<script type="text/javascript" src="{% static 'rdst/index.js' %}" ></script>
+<!--<script type="text/javascript" src="{% static 'rdst/index.js' %}" ></script>-->
+
 
 
 <link rel="stylesheet" type="text/css" href="{% static 'rdst/lib/geoext2-2.0.2b/resources/css/popup.css' %}">

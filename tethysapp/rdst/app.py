@@ -9,7 +9,7 @@ class Rdst(TethysAppBase):
 
     name = 'Rangelands Decision Support Tool'
     index = 'rdst:home'
-    icon = 'rdst/images/icon.gif'
+    icon = 'rdst/images/rangeland.jpg'
     package = 'rdst'
     root_url = 'rdst'
     color = '#8e44ad'
@@ -25,21 +25,21 @@ class Rdst(TethysAppBase):
         UrlMap = url_map_maker(self.root_url)
 
         url_maps = (
-            UrlMap(
-                name='app',
-                url='app',
-                controller='rdst.controllers.app'
-            ),
+            #UrlMap(
+                #name='app',
+                #url='app',
+               # controller='rdst.controllers.app'
+           # ),
             UrlMap(
                 name='home',
                 url='home',
                 controller='rdst.controllers.home'
             ),
-            UrlMap(
-                name='dash',
-                url='dash',
-                controller='rdst.controllers.dash'
-            ),
+           # UrlMap(
+                #name='dash',
+                #url='dash',
+                #controller='rdst.controllers.dash'
+           # ),
             UrlMap(
                 name='tool',
                 url='tool',
@@ -50,32 +50,32 @@ class Rdst(TethysAppBase):
                 url='login',
                 controller='rdst.controllers.login'
             ),
-            UrlMap(
-                name='get_map',
-                url='rdst/app/get_map',
-                controller='rdst.ajax_controller.get_map'
-            ),
-            UrlMap(
-                name='get_cmap',
-                url='rdst/app/get_cmap',
-                controller='rdst.ajax_controller.get_cmap'
-            ),
-            UrlMap(
-                name='get_forecast',
-                url='rdst/app/get_forecast',
-                controller='rdst.ajax_controller.get_forecast'
-            ),
+           # UrlMap(
+              #  name='get_map',
+              #  url='rdst/app/get_map',
+              #  controller='rdst.ajax_controller.get_map'
+           # ),
+           # UrlMap(
+             #   name='get_cmap',
+             #   url='rdst/app/get_cmap',
+             #   controller='rdst.ajax_controller.get_cmap'
+          #  ),
+          #  UrlMap(
+              #  name='get_forecast',
+              #  url='rdst/app/get_forecast',
+             #   controller='rdst.ajax_controller.get_forecast'
+           # ),
         )
 
         return url_maps
 
-    def persistent_store_settings(self):
-        ps_settings = (
-            PersistentStoreDatabaseSetting(
-                name='primary_db',
-                description='primary database',
-                initializer='rdst.model.init_primary_db',
-                required=True
-                ),
-            )
-        return ps_settings
+    #def persistent_store_settings(self):
+        #ps_settings = (
+            #PersistentStoreDatabaseSetting(
+                #name='primary_db',
+                #description='primary database',
+                #initializer='rdst.model.init_primary_db',
+                #required=True
+                #),
+           # )
+       # return ps_settings

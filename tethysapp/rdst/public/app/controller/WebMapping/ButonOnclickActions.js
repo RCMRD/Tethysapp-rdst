@@ -38,7 +38,7 @@ var stats_region = '';
 
 
 Ext.rangelands.years = [
-
+    ['2023'],
     ['2022'],
     ['2021'],
     ['2020'],
@@ -61,6 +61,31 @@ Ext.rangelands.years = [
     ['2003'],
     ['2002'],
     ['2001']
+  
+    
+];
+Ext.rangelands.years_empty = [];
+Ext.rangelands.months_empty = [];
+Ext.rangelands.lai_years = [
+    ['2021'],
+    ['2020'],
+    ['2019'],
+    ['2018'],
+    ['2017'],
+    ['2016'],
+    ['2015'],
+    ['2014'],
+	['2013'],
+    ['2012'],
+    ['2011'],
+    ['2010'],
+    ['2009'],
+    ['2008'],
+    ['2007'],
+    ['2006'],
+    ['2005'],
+    ['2004'],
+    ['2003']
   
     
 ];
@@ -115,6 +140,56 @@ Ext.rangelands.dekads4 = [
     ['Dekad 3 (21st - 29th)','21']
     
 ];
+
+
+
+
+
+Ext.rangelands.octals = [
+    ['Octal 1 (1st - 8th)','01'],
+    ['Octal 2 (9th - 16th)','09'],
+    ['Octal 3 (17th - 24th)','17'],
+	['Octal 4 (25th - 29th)','25']
+    
+];
+
+propducts = {
+    'non-leap': {
+        '1':  [['1st','01'],['9th','09'],['17th','17'],['25th','25']],
+		'2':  [['2nd','02'],['10th','10'],['18th','18'],['26th','26']],
+		'3':  [['6th','06'],['14th','14'],['22nd','22'],['30th','30']],
+		'4':  [['7th','07'],['15th','15'],['23rd','23']],
+		'5':  [['1st','01'],['9th','09'],['17th','17'],['25th','25']],
+		'6':  [['2nd','02'],['10th','10'],['18th','18'],['26th','26']],
+		'7':  [['4th','04'],['12th','12'],['20th','20'],['28th','28']],
+		'8':  [['5th','05'],['13th','13'],['21th','21'],['29th','29']],
+		'9':  [['6th','06'],['14th','14'],['22nd','22'],['30th','30']],
+		'10':  [['8th','08'],['16th','16'],['24th','24']],
+		'11':  [['1st','01'],['9th','09'],['17th','17'],['25th','25']],
+		'12':  [['3rd','03'],['11th','11'],['19th','19'],['27th','27']],
+           
+        },
+		'leap': {
+			'1':  [['1st','01'],['9th','09'],['17th','17'],['25th','25']],
+			'2':  [['2nd','02'],['10th','10'],['18th','18'],['26th','26']],
+			'3':  [['5th','05'],['13th','13'],['21st','21'],['29th','29']],
+			'4':  [['6th','06'],['14th','14'],['22nd','22'],['30th','30']],
+			'5':  [['8th','08'],['16th','16'],['24th','24']],
+			'6':  [['1st','01'],['9th','09'],['17th','17'],['25th','25']],
+			'7':  [['3rd','03'],['11th','11'],['19th','19'],['27th','27']],
+			'8':  [['4th','04'],['12th','12'],['20th','20'],['28th','28']],
+			'9':  [['5th','05'],['13th','13'],['21th','21'],['29th','29']],
+			'10':  [['7th','07'],['15th','15'],['23rd','23'],['31st','31']],
+			'11':  [['8th','08'],['16th','16'],['24th','24']],
+			'12':  [['2nd','02'],['10th','10'],['18th','18'],['26th','26']],
+			   
+			}
+						
+    }
+    
+    
+
+
 
 function loadConfig(){
 
@@ -436,7 +511,7 @@ dojo.require("esri.tasks.gp");
 
 var _county;
 var _boundary;
-var ndvi_tif = '';
+//var ndvi_tif = '';
 var current_wms = '';
 
 function makeGraph(ghgdata){
@@ -474,7 +549,7 @@ function loadLayer(wms_name){
 				}
 
 				var wms_layer = new OpenLayers.Layer.WMS(wms_name,
-						"http://maps.rcmrd.org:8080/geoserver/wms",
+						"https://geoserver.rcmrd.org/geoserver/wms",
 						{
 						   layers: 'rangelands:' + wms_name,
 						   transparent: true,
@@ -513,6 +588,63 @@ function loadLayer(wms_name){
 
 }
 
+function loadLAILayer(workspace,name,time){
+
+	// check layer availability
+	//var _url = '/raster/' + wms_name
+	/*
+	$.ajax({
+    	type: "GET",
+    	url: _url,
+    	//async: false,
+    	dataType: "json",
+		crossDomain: true,
+    	success: function(data){
+	*/
+
+	           var wms_name=name+"-"+time;
+
+        		// clear current overlay
+				var current_layer = map.getLayersByName(current_wms);
+				if(current_layer.length != 0){
+					map.removeLayer(current_layer[0]);
+				}
+
+				var wms_layer = new OpenLayers.Layer.WMS(wms_name,
+						"https://data.rcmrd.org/geoserver/wms",
+						{
+						   layers: workspace+':' + name,
+						   time: time,
+						   transparent: true,
+						   format: "image/png"
+						}, {
+						       buffer: 0,
+						       visibility: true,
+						       displayOutsideMaxExtent: true,
+						       displayInLayerSwitcher: true,
+						       isBaseLayer: false,
+						       yx : {'EPSG:4326' : true}
+						});
+
+
+
+				map.addLayer(wms_layer);
+
+				map.setLayerIndex(wms_layer, 0);
+
+				current_wms = wms_name;
+
+
+
+        	
+
+    	
+
+
+
+
+}
+
 
 
 function highLight(_layer, _name){
@@ -541,16 +673,19 @@ function highLight(_layer, _name){
 
 	else if( _layer == 'NRT Rehabilitation Areas'){
 		_layer_name = "nrt_rehab_areas";
+		property_name = 'Site_1';
 		
 	} 
 
 	else if( _layer == 'LWF Areas'){
 		_layer_name = "lwf_areas";
+		property_name = 'NAME_96';
 		
 	}
 
 	else if( _layer == 'Lewa Blocks'){
 		_layer_name = "lewa_blocks";
+		property_name = 'Block';
 		
 	} 
 
@@ -561,10 +696,12 @@ function highLight(_layer, _name){
 
 	else if( _layer == 'County Grazing Blocks'){
 	    _layer_name = 'county_blocks';
+		property_name = 'Name_2';
 	}
 
 	else {
-		_layer_name = "nrt_conservancies";
+		_layer_name = "conservancies";
+		property_name = 'name';
 		
 	}
 
@@ -582,7 +719,7 @@ function highLight(_layer, _name){
 	sld += '</Stroke></PolygonSymbolizer></sld:Rule></sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>';
 
 	selected_wms = new OpenLayers.Layer.WMS("Selected Boundary",
-			"http://apps.rcmrd.org:8080/geoserver/wms",
+			"https://geoserver.rcmrd.org/geoserver/wms",
 			{
 			   layers: 'rangelands:' + _layer_name,
 			   transparent: true,
@@ -679,7 +816,7 @@ function addGrazingWms(_name){
 	sld += '</Stroke></PolygonSymbolizer></sld:Rule></sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>';
 
 	selected_wms = new OpenLayers.Layer.WMS("Grazing Blocks",
-			"http://apps.rcmrd.org:8080/geoserver/wms",
+			"https://geoserver.rcmrd.org/geoserver/wms",
 			{
 			   layers: 'rangelands:' + _layer_name,
 			   transparent: true,
@@ -724,21 +861,21 @@ function generate_Map(ndvi_file, shapefile, fieldvalue, overlays)
 
 			// modified wps endpoint
 			//var gpTaskUrl = "http://maps.rcmrd.org/arcgis/rest/services/Kenya/Kenya_Rangelands_Map_Generator/GPServer/Kenya_Rangeland_Map_Generator";
-			var gpTaskUrl = "https://maps.rcmrd.org/arcgis/rest/services/wps/KenyaRangelandMapGenerator/GPServer/Kenya_Rangeland_Map_Generator";
+			var gpTaskUrl = "https://emaps.rcmrd.org/arcgis/rest/services/wps/KenyaRangelandMapGenerator/GPServer/Kenya_Rangeland_Map_Generator";
 
 			var gp_Parameters = {"county_or_conservancy_name":county_or_conservancy_name, 
 								"gis_shapefile_name":gis_shapefile_name,
 								"normalized_difference_vegetation_index_filename":normalized_difference_vegetation_index_filename, 
-								"invasive_layer_selection": overlays[8],
-								"lakes_layer_selection": overlays[10],
-								"towns_layer_selection": overlays[7],
+								"invasive_layer_selection": overlays[7],
+								"lakes_layer_selection": overlays[9],
+								"towns_layer_selection": overlays[6],
 								"acacia_layer_selection": overlays[5],
 								"protected_layer_selection": overlays[3],
-								"surface_layer_selection": overlays[6],
+								"surface_layer_selection": "false",
 								"opuntia_layer_selection": overlays[4],
 								"ndvi_layer_selection": "true", 
-								"rivers_layer_selection": overlays[9],
-								"grazingblocks_selection": overlays[11],
+								"rivers_layer_selection": overlays[8],
+								"grazingblocks_selection": overlays[10],
 								"migration_routes_selection": overlays[1],
 								"conflict_areas_selection": overlays[2]};
 
@@ -811,7 +948,7 @@ function generate_Map(ndvi_file, shapefile, fieldvalue, overlays)
 
 		}
 
-var splash_win = new Ext.Window
+/*var splash_win = new Ext.Window
 					({
 						width:500,
 						height:600,
@@ -822,7 +959,7 @@ var splash_win = new Ext.Window
 						}
 					});
 
-splash_win.show();
+splash_win.show();*/
 
 
 var chart_win = new Ext.Window
@@ -1502,7 +1639,30 @@ Ext.define('LandCover.controller.WebMapping.ButonOnclickActions', {
 					}
 					
 				}
-			},  		 		
+			},
+			'WebMappingViewport tabpanel[name=lai_tabs]': {
+				tabchange:function(tabPanel, tab) {
+					// clear all combos in other tabs
+					var activetab = tab.id;
+					if (activetab == 'aggregate_lai'){
+						
+						Ext.getCmp('aggregate_lai_year').clearValue();
+						Ext.getCmp('aggregate_lai_month').clearValue();
+						Ext.getCmp('aggregate_lai_octal').clearValue();
+
+					}else if ( activetab == 'herbaceous_lai'){
+
+						Ext.getCmp('herbaceous_lai_year').clearValue();
+						Ext.getCmp('herbaceous_lai_month').clearValue();
+						Ext.getCmp('herbaceous_lai_octal').clearValue();
+					} else {
+						Ext.getCmp('woody_lai_year').clearValue();
+						Ext.getCmp('woody_lai_month').clearValue();
+						Ext.getCmp('woody_lai_octal').clearValue();
+					}
+					
+				}
+			},    		 		
 			'WebMappingViewport combobox[name=std_anomaly_year]': {
 				select:function(valueField) {
 					Ext.getCmp('std_anomaly_month').enable();
@@ -1681,7 +1841,236 @@ Ext.define('LandCover.controller.WebMapping.ButonOnclickActions', {
 					Ext.getCmp('boundarytype').enable();
 					
 				}
-			},  		
+			},
+			'WebMappingViewport combobox[name=aggregate_lai_month]': {
+				select:function(valueField) {
+
+					var _octal = Ext.getCmp('aggregate_lai_octal');
+					_octal.clearValue();
+					var _store = _octal.getStore();
+					_store.removeAll();
+
+					var _year = Ext.getCmp('aggregate_lai_year').getValue();
+					_year = parseInt(_year);
+					var _month = valueField.value;
+					//var days = new Date(_year, _month, 0).getDate();
+
+					/*if(days == 30) {
+						_store.loadData(Ext.rangelands.octals1);
+					} else if (days == 31) {
+						_store.loadData(Ext.rangelands.octals2);
+					} else if (days == 28) {
+						_store.loadData(Ext.rangelands.octals3);
+					} else {
+						_store.loadData(Ext.rangelands.octals4);
+					}*/
+
+					var leap = new Date(_year, 1, 29).getDate() === 29;
+                    if (leap) {
+						_store.loadData(propducts['leap'][_month]);
+                    } else {
+						_store.loadData(propducts['non-leap'][_month]);
+                   }
+
+						_octal.enable();
+					
+				}
+			}, 
+			'WebMappingViewport combobox[name=aggregate_lai_year]': {
+				select:function(valueField) {
+					
+					var aggregate_lai_month = Ext.getCmp('aggregate_lai_month');
+					aggregate_lai_month.enable();
+					aggregate_lai_month.clearValue();
+
+					Ext.getCmp('aggregate_lai_octal').clearValue();
+
+					stats_yr = valueField.value;
+
+					
+				}
+			},  	
+			'WebMappingViewport combobox[name=aggregate_lai_octal]': {
+				select:function() {
+					
+					// Get selected year, month, dekad
+					var sel_year = Ext.getCmp('aggregate_lai_year').getValue();
+					var sel_month = Ext.getCmp('aggregate_lai_month').getValue();
+					if(sel_month < 10){
+						sel_month = '0' + sel_month;
+					}
+					var sel_octal = Ext.getCmp('aggregate_lai_octal').getValue();
+
+					//var octal_layer = 'modis.dekadal.' + sel_year + sel_month + sel_octal + '.tif';
+					var workspace='aggregate_lai';
+					var name='aggregate_lai';
+					var time=sel_year + "-"+sel_month +"-"+ sel_octal;
+					var octal_layer=name+"-"+time;
+					
+					loadLAILayer(workspace,name,time);
+					ndvi_tif = octal_layer;
+
+					Ext.getCmp('boundarytype').enable();
+
+
+					
+				}
+			},
+			'WebMappingViewport combobox[name=herbaceous_lai_month]': {
+				select:function(valueField) {
+
+					var _octal = Ext.getCmp('herbaceous_lai_octal');
+					_octal.clearValue();
+					var _store = _octal.getStore();
+					_store.removeAll();
+
+					var _year = Ext.getCmp('herbaceous_lai_year').getValue();
+					_year = parseInt(_year);
+					var _month = valueField.value;
+					/*var days = new Date(_year, _month, 0).getDate();
+
+					if(days == 30) {
+						_store.loadData(Ext.rangelands.octals1);
+					} else if (days == 31) {
+						_store.loadData(Ext.rangelands.octals2);
+					} else if (days == 28) {
+						_store.loadData(Ext.rangelands.octals3);
+					} else {
+						_store.loadData(Ext.rangelands.octals4);
+					}
+
+					_octal.enable();*/
+					var leap = new Date(_year, 1, 29).getDate() === 29;
+                    if (leap) {
+						_store.loadData(propducts['leap'][_month]);
+                    } else {
+						_store.loadData(propducts['non-leap'][_month]);
+                   }
+
+						_octal.enable();
+					
+					
+				}
+			}, 
+			'WebMappingViewport combobox[name=herbaceous_lai_year]': {
+				select:function(valueField) {
+					
+					var herbaceous_lai_month = Ext.getCmp('herbaceous_lai_month');
+					herbaceous_lai_month.enable();
+					herbaceous_lai_month.clearValue();
+
+					Ext.getCmp('herbaceous_lai_octal').clearValue();
+
+					stats_yr = valueField.value;
+
+					
+				}
+			},  	
+			'WebMappingViewport combobox[name=herbaceous_lai_octal]': {
+				select:function() {
+					
+					// Get selected year, month, dekad
+					var sel_year = Ext.getCmp('herbaceous_lai_year').getValue();
+					var sel_month = Ext.getCmp('herbaceous_lai_month').getValue();
+					if(sel_month < 10){
+						sel_month = '0' + sel_month;
+					}
+					var sel_octal = Ext.getCmp('herbaceous_lai_octal').getValue();
+
+					//var octal_layer = 'modis.dekadal.' + sel_year + sel_month + sel_octal + '.tif';
+
+					var workspace='herbaceous_lai';
+					var name='herbaceous_lai';
+					var time=sel_year + "-"+sel_month +"-"+ sel_octal;
+					var octal_layer=name+"-"+time;
+					
+					loadLAILayer(workspace,name,time);
+					ndvi_tif = octal_layer;
+
+
+					Ext.getCmp('boundarytype').enable();
+
+
+					
+				}
+			},
+			'WebMappingViewport combobox[name=woody_lai_month]': {
+				select:function(valueField) {
+
+					var _octal = Ext.getCmp('woody_lai_octal');
+					_octal.clearValue();
+					var _store = _octal.getStore();
+					_store.removeAll();
+
+					var _year = Ext.getCmp('woody_lai_year').getValue();
+					_year = parseInt(_year);
+					var _month = valueField.value;
+					/*var days = new Date(_year, _month, 0).getDate();
+
+					if(days == 30) {
+						_store.loadData(Ext.rangelands.octals1);
+					} else if (days == 31) {
+						_store.loadData(Ext.rangelands.octals2);
+					} else if (days == 28) {
+						_store.loadData(Ext.rangelands.octals3);
+					} else {
+						_store.loadData(Ext.rangelands.octals4);
+					}
+
+					_octal.enable();*/
+					var leap = new Date(_year, 1, 29).getDate() === 29;
+                    if (leap) {
+						_store.loadData(propducts['leap'][_month]);
+                    } else {
+						_store.loadData(propducts['non-leap'][_month]);
+                   }
+
+						_octal.enable();
+					
+					
+				}
+			}, 
+			'WebMappingViewport combobox[name=woody_lai_year]': {
+				select:function(valueField) {
+					
+					var woody_lai_month = Ext.getCmp('woody_lai_month');
+					woody_lai_month.enable();
+					woody_lai_month.clearValue();
+
+					Ext.getCmp('woody_lai_octal').clearValue();
+
+					stats_yr = valueField.value;
+
+					
+				}
+			},  	
+			'WebMappingViewport combobox[name=woody_lai_octal]': {
+				select:function() {
+					
+					// Get selected year, month, dekad
+					var sel_year = Ext.getCmp('woody_lai_year').getValue();
+					var sel_month = Ext.getCmp('woody_lai_month').getValue();
+					if(sel_month < 10){
+						sel_month = '0' + sel_month;
+					}
+					var sel_octal = Ext.getCmp('woody_lai_octal').getValue();
+
+					//var octal_layer = 'modis.dekadal.' + sel_year + sel_month + sel_octal + '.tif';
+
+					var workspace='woody_lai';
+					var name='woody_lai';
+					var time=sel_year + "-"+sel_month +"-"+ sel_octal;
+					var octal_layer=name+"-"+time;
+					
+					loadLAILayer(workspace,name,time);
+					ndvi_tif = octal_layer;
+
+					Ext.getCmp('boundarytype').enable();
+
+
+					
+				}
+			},    		    		
 			'WebMappingViewport button[action=rangeSearchAction]':
 			{
 				click: function() 

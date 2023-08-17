@@ -570,6 +570,195 @@ VCIForm = Ext.create('Ext.form.Panel', {
             }]
 });
 
+LAIForm = Ext.create('Ext.form.Panel', {
+    bodyPadding: 10,
+    id: 'lai_form_id', 
+    title: 'Partioned Leaf Area Index',
+    //height: 300,
+    autoScroll: true,
+    collapsible: true,
+    collapsed: true,
+    items: [{
+
+            xtype:'tabpanel',
+            name: 'lai_tabs',
+            id: 'lai_tabs',
+            activeTab: 0,
+            defaults:{
+                bodyPadding: 10,
+                layout: 'anchor'
+            },
+            items:[{
+                title: 'Aggregate LAI',
+                id: 'aggregate_lai',
+                defaultType: 'textfield',
+                defaults: {
+                    anchor: '100%'
+                },
+                items: [{
+                    xtype: 'combobox',
+                    fieldLabel: 'Year',
+                    //disabled: true,
+                    name: 'aggregate_lai_year',
+                    id: 'aggregate_lai_year',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_value'],
+                        data : Ext.rangelands.lai_years 
+                    }),
+                    valueField: '_value',
+                    displayField: '_value',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select year...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Month',
+                    disabled: true,
+                    name: 'aggregate_lai_month',
+                    id: 'aggregate_lai_month',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.months 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select month...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Date',
+                    disabled: true,
+                    name: 'aggregate_lai_octal',
+                    id: 'aggregate_lai_octal',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.octals 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select Date...'
+                }]
+            },{
+                title: 'Herbaceous LAI',
+                id: 'herbaceous_lai',
+                defaultType: 'textfield',
+                defaults: {
+                    anchor: '100%'
+                },
+                items: [{
+                    xtype: 'combobox',
+                    fieldLabel: 'Year',
+                    //disabled: true,
+                    name: 'herbaceous_lai_year',
+                    id: 'herbaceous_lai_year',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_value'],
+                        data : Ext.rangelands.lai_years 
+                    }),
+                    valueField: '_value',
+                    displayField: '_value',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select year...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Month',
+                    disabled: true,
+                    name: 'herbaceous_lai_month',
+                    id: 'herbaceous_lai_month',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.months 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select month...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Date',
+                    disabled: true,
+                    name: 'herbaceous_lai_octal',
+                    id: 'herbaceous_lai_octal',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.octals 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select Date...'
+                }]
+            },{
+                title: 'Woody LAI',
+                id: 'woody_lai',
+                defaultType: 'textfield',
+                defaults: {
+                    anchor: '100%'
+                },
+                items: [{
+                    xtype: 'combobox',
+                    fieldLabel: 'Year',
+                    //disabled: true,
+                    name: 'woody_lai_year',
+                    id: 'woody_lai_year',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_value'],
+                        data : Ext.rangelands.lai_years 
+                    }),
+                    valueField: '_value',
+                    displayField: '_value',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select year...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Month',
+                    disabled: true,
+                    name: 'woody_lai_month',
+                    id: 'woody_lai_month',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.months 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select month...'
+                },{
+                    xtype: 'combobox',
+                    fieldLabel: 'Date',
+                    disabled: true,
+                    name: 'woody_lai_octal',
+                    id: 'woody_lai_octal',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['_display','_value'],
+                        data : Ext.rangelands.octals 
+                    }),
+                    valueField: '_value',
+                    displayField: '_display',
+                    typeAhead: true,
+                    queryMode: 'local',
+                    emptyText: 'Select Date...'
+                }]
+            }
+        
+        
+        
+        ]
+
+    },{
+                
+                html: '<br /><br />The leaf area index (LAI) is a measure of the one-sided leaf area per unit ground area.'
+            }]
+});
+
 SingleSearchForm = Ext.create('Ext.form.Panel', {
     bodyPadding: 10,
     id: 'single_search_id', 
@@ -582,7 +771,7 @@ SingleSearchForm = Ext.create('Ext.form.Panel', {
                     xtype: 'combobox',
                     fieldLabel: 'Boundary',
                     name: 'boundarytype',
-                    disabled: true,
+                    disabled: false,
                     width: 400,
                     id: 'boundarytype',
                     store: Ext.create('Ext.data.ArrayStore', {
@@ -757,7 +946,7 @@ SingleSearchForm = Ext.create('Ext.form.Panel', {
             animate: true,
             activeOnTop: false
         },
-        items: [NdviSearchForm, AnomalyForm, VCIForm]
+        items: [NdviSearchForm, AnomalyForm, VCIForm,LAIForm]
 
     }); 
 
